@@ -53,11 +53,16 @@ __global__ void mult( int* matrix_result,
 
 int main(int argc, char* argv[]) {
 	if (argc != 2) {
-      fprintf(stderr, "Syntax: %s <vector size N>\n", argv[0]);
+      fprintf(stderr, "Syntax: %s <vector size N (<=512)>\n", argv[0]);
       return EXIT_FAILURE;
     }
 
     int N = atoi(argv[1]);
+
+	if (N > 512) {
+      fprintf(stderr, "Syntax: %s <vector size N (<=512)>\n", argv[0]);
+      return EXIT_FAILURE;
+    }
 	//const int N = 4;
 	int mSize = N*N*sizeof(int);
 	int col_sum = N * (N-1) / 2;
@@ -82,7 +87,7 @@ int main(int argc, char* argv[]) {
     checkCuda(cudaMemcpy(dev_a, host_a, mSize, H2D));
     checkCuda(cudaMemcpy(dev_b, host_b, mSize, H2D)); 
 
-	int gridSize = imin(32, (N+BLOCK_SIZE-1)/BLOCK_SIZE);
+	int gridSize = N / BLOCK_SIZE;
 	dim3 dimGrid(gridSize, gridSize, 1);
 	dim3 dimBlock(BLOCK_SIZE, BLOCK_SIZE, 1);
 
