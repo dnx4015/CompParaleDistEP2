@@ -13,7 +13,7 @@
 #define INC(i,n,inc) for(int i=0;i<n;i+=inc)
 #define imin(a,b) (a<b?a:b)
 
-const int BlockSizeX = 16;
+const int BlockSizeX = 32;
 const int Factor = 4;
 const int BlockSizeY = BlockSizeX/Factor;
 
@@ -48,7 +48,13 @@ int main(int argc, char* argv[]) {
     }
 
     int N = atoi(argv[1]);
-	
+
+	if (N > 512) {
+      fprintf(stderr, "Syntax: %s <vector size N (<=512)>\n", argv[0]);
+      return EXIT_FAILURE;
+    }
+
+
 	//const int N = 32;
 	const int mSize = N*N*sizeof(int);
 	int gridSize = N / BlockSizeX;

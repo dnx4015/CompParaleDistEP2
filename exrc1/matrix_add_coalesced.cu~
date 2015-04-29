@@ -10,9 +10,10 @@
 
 #define REP(i,n) for(int i=0;i<n;i++)
 #define FOR(i,a,b) for(int i=a;i<=b;i++)
+#define INC(i,n,inc) for(int i=0;i<n;i+=inc)
 #define imin(a,b) (a<b?a:b)
 
-const int BlockSizeX = 32;
+const int BlockSizeX = 16;
 const int Factor = 4;
 const int BlockSizeY = BlockSizeX/Factor;
 
@@ -31,9 +32,9 @@ __global__ void add( int* matrix_result,
                       int* matrix_b, 
                       const int N ) {
 	int col = blockIdx.x * BlockSizeX + threadIdx.x;
-    int row = blockIdx.y * BlockSizeX + threadIdx.y * Factor;
+    int row = blockIdx.y * BlockSizeX + threadIdx.y;
 	
-	REP(i, Factor){
+	INC(i, BlockSizeX, BlockSizeY){
 		matrix_result[(row + i) * N + col] = 
 			matrix_a[(row + i) * N + col] +
 			matrix_b[(row + i) * N + col];
@@ -42,17 +43,12 @@ __global__ void add( int* matrix_result,
 
 int main(int argc, char* argv[]) {
 	if (argc != 2) {
-      fprintf(stderr, "Syntax: %s <vector size N (<=512)>\n", argv[0]);
+      fprintf(stderr, "Syntax: %s <vector size N>\n", argv[0]);
       return EXIT_FAILURE;
     }
 
     int N = atoi(argv[1]);
 	
-	if (N > 512) {
-      fprintf(stderr, "Syntax: %s <vector size N (<=512)>\n", argv[0]);
-      return EXIT_FAILURE;
-    }
-
 	//const int N = 32;
 	const int mSize = N*N*sizeof(int);
 	int gridSize = N / BlockSizeX;
@@ -79,7 +75,7 @@ int main(int argc, char* argv[]) {
     checkCuda(cudaMemcpy(dev_b, host_b, mSize, H2D)); 
 
 	dim3 dimGrid(gridSize, gridSize, 1);
-	dim3 dimBlock(BlockSizeX, BlockSizeY, 1);
+	dim3 dimBlock(BlockSizeX, BlockSizeX/Factor, 1);
 
     add<<<dimGrid,dimBlock>>>(dev_result, dev_a, dev_b, N);
 	

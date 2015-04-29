@@ -12,7 +12,7 @@
 #define FOR(i,a,b) for(int i=a;i<=b;i++)
 #define imin(a,b) (a<b?a:b)
 
-const int BlockSizeX = 32;
+const int BlockSizeX = 16;
 const int Factor = 4;
 const int BlockSizeY = BlockSizeX/Factor;
 
@@ -42,16 +42,11 @@ __global__ void add( int* matrix_result,
 
 int main(int argc, char* argv[]) {
 	if (argc != 2) {
-      fprintf(stderr, "Syntax: %s <vector size N (<=512)>\n", argv[0]);
+      fprintf(stderr, "Syntax: %s <vector size N>\n", argv[0]);
       return EXIT_FAILURE;
     }
 
     int N = atoi(argv[1]);
-	
-	if (N > 512) {
-      fprintf(stderr, "Syntax: %s <vector size N (<=512)>\n", argv[0]);
-      return EXIT_FAILURE;
-    }
 
 	//const int N = 32;
 	const int mSize = N*N*sizeof(int);
