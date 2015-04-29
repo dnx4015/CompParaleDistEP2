@@ -10,6 +10,7 @@
 
 #define REP(i,n) for(int i=0;i<n;i++)
 #define FOR(i,a,b) for(int i=a;i<=b;i++)
+#define INC(i,n,inc) for(int i=0;i<n;i+=inc)
 #define imin(a,b) (a<b?a:b)
 
 #define BLOCK_SIZE 16
@@ -28,14 +29,26 @@ __global__ void mult( int* matrix_result,
                       int* matrix_a, 
                       int* matrix_b, 
                       int N ) {
-    int val = 0;
+	__shared__ int shared_a[BLOCK_SIZE][BLOCK_SIZE];
+	__shared__ int shared_b[BLOCK_SIZE][BLOCK_SIZE];
+    
 	int col = blockIdx.x * BLOCK_SIZE + threadIdx.x;
     int row = blockIdx.y * BLOCK_SIZE + threadIdx.y;
+	int tx = threadIdx.x;
+	int ty = threadIdx.y;
 
-	REP(i, N){
-		val += matrix_a[col * N + i] * matrix_b[i * N + row];
+	int val = 0;
+	INC(i, N, BLOCK_SIZE){
+		shared_a[ty][tx] = matrix_a[row * N + (i + tx)];
+		shared_b[ty][tx] = matrix_b[(i + ty) * N + col];
+		__syncthreads();
+
+		REP(j, BLOCK_SIZE){
+			val += shared_a[ty][j] * shared_b[j][tx];
+		}
+		__syncthreads();
 	}
-	matrix_result[col * N + row] = val;
+	matrix_result[row * N + col] = val;
 }
 
 int main(int argc, char* argv[]) {
@@ -45,10 +58,9 @@ int main(int argc, char* argv[]) {
     }
 
     int N = atoi(argv[1]);
-
 	//const int N = 4;
-	int mSize = N * N * sizeof(int);
-	int col_sum = N * (N - 1) / 2;
+	int mSize = N*N*sizeof(int);
+	int col_sum = N * (N-1) / 2;
 	int mul = 5;
 
 	int host_a[N][N], host_b[N][N], host_result[N][N];
@@ -67,11 +79,11 @@ int main(int argc, char* argv[]) {
     checkCuda( cudaMalloc( (void**)&dev_result, mSize));
 
     // copy the arrays 'a' and 'b' to the GPU
-    checkCuda(cudaMemcpy(dev_a, host_a, mSize, H2D));
-    checkCuda(cudaMemcpy(dev_b, host_b, mSize, H2D));
+    checkCuda(cudaMemcpy(dev_a, host_a, mSize, H2D ));
+    checkCuda(cudaMemcpy(dev_b, host_b, mSize, H2D ));
 
-	int gridSize = imin(32, (N + BLOCK_SIZE - 1) / BLOCK_SIZE);
-	dim3 dimGrid(gridSize, gridSize, 1);
+	int gridSize = imin(32, (N+BLOCK_SIZE-1)/BLOCK_SIZE);
+	dim3 dimGrid(gridSize, gridSize, 1); 
 	dim3 dimBlock(BLOCK_SIZE, BLOCK_SIZE, 1);
 
     mult<<<dimGrid,dimBlock>>>(dev_result, dev_a, dev_b, N );

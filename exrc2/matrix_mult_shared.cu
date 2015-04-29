@@ -6,13 +6,14 @@
 #define uint unsigned int
 #define H2D cudaMemcpyHostToDevice
 #define D2H cudaMemcpyDeviceToHost
-#define DEBUG if(1)
+#define DEBUG if(0)
 
 #define REP(i,n) for(int i=0;i<n;i++)
 #define FOR(i,a,b) for(int i=a;i<=b;i++)
+#define INC(i,n,inc) for(int i=0;i<n;i+=inc)
 #define imin(a,b) (a<b?a:b)
 
-#define BLOCK_SIZE 2
+#define BLOCK_SIZE 16
 
 inline cudaError_t checkCuda(cudaError_t result) {
 #if defined(DEBUG) || defined(_DEBUG) 
@@ -27,7 +28,7 @@ inline cudaError_t checkCuda(cudaError_t result) {
 __global__ void mult( int* matrix_result, 
                       int* matrix_a, 
                       int* matrix_b, 
-                      const int N ) {
+                      int N ) {
 	__shared__ int shared_a[BLOCK_SIZE][BLOCK_SIZE];
 	__shared__ int shared_b[BLOCK_SIZE][BLOCK_SIZE];
     
@@ -37,22 +38,28 @@ __global__ void mult( int* matrix_result,
 	int ty = threadIdx.y;
 
 	int val = 0;
-	REP(i, N/BLOCK_SIZE){
-		shared_a[ty][tx] = matrix_a[row * N +(i * BLOCK_SIZE + tx)];
-		shared_b[ty][tx] = matrix_b[(i * BLOCK_SIZE + ty) * N +col];
+	INC(i, N, BLOCK_SIZE){
+		shared_a[tx][ty] = matrix_a[col * N + (i + ty)];
+		shared_b[tx][ty] = matrix_b[(i + tx) * N + row];
 		__syncthreads();
 
 		REP(j, BLOCK_SIZE){
-			val += shared_a[ty][j] * shared_b[j][tx];
+			val += shared_a[tx][j] * shared_b[j][ty];
 		}
 		__syncthreads();
 	}
-	matrix_result[row * N + col] = val;
+	matrix_result[col * N + row] = val;
 }
 
 int main(int argc, char* argv[]) {
-	const int N = 4;
-	const int mSize = N*N*sizeof(int);
+	if (argc != 2) {
+      fprintf(stderr, "Syntax: %s <vector size N>\n", argv[0]);
+      return EXIT_FAILURE;
+    }
+
+    int N = atoi(argv[1]);
+	//const int N = 4;
+	int mSize = N*N*sizeof(int);
 	int col_sum = N * (N-1) / 2;
 	int mul = 5;
 
@@ -72,10 +79,8 @@ int main(int argc, char* argv[]) {
     checkCuda( cudaMalloc( (void**)&dev_result, mSize));
 
     // copy the arrays 'a' and 'b' to the GPU
-    checkCuda(cudaMemcpy(dev_a, host_a, mSize, 
-						   cudaMemcpyHostToDevice));
-    checkCuda(cudaMemcpy(dev_b, host_b, mSize, 
-						   cudaMemcpyHostToDevice)); 
+    checkCuda(cudaMemcpy(dev_a, host_a, mSize, H2D));
+    checkCuda(cudaMemcpy(dev_b, host_b, mSize, H2D)); 
 
 	int gridSize = imin(32, (N+BLOCK_SIZE-1)/BLOCK_SIZE);
 	dim3 dimGrid(gridSize, gridSize, 1);
@@ -90,9 +95,7 @@ int main(int argc, char* argv[]) {
 		exit(-1);
 	}
     // copy the array 'result' back from the GPU to the CPU
-    checkCuda( cudaMemcpy( host_result, dev_result, 
-						   mSize, 
-						   cudaMemcpyDeviceToHost ) );
+    checkCuda( cudaMemcpy( host_result, dev_result, mSize, D2H ));
 
 	REP(i, N){
 		REP(j, N){
