@@ -54,6 +54,14 @@ int main(int argc, char* argv[]) {
       return EXIT_FAILURE;
     }
 
+	cudaEvent_t beginEvent ;
+	cudaEvent_t endEvent ;
+
+	cudaEventCreate( &beginEvent ) ;
+	cudaEventCreate( &endEvent ) ;
+
+	cudaEventRecord( beginEvent , 0 ) ;
+
     int N = atoi(argv[1]);
     int GridSize = imin( 32, (N+BlockSize-1) / BlockSize );
     int devId = atoi(argv[2]);
@@ -106,4 +114,12 @@ int main(int argc, char* argv[]) {
     free( a );
     free( b );
     free( partial_c );
+
+	cudaEventRecord( endEvent , 0 ) ;
+	cudaEventSynchronize( endEvent ) ;
+
+	float timeValue ;
+	cudaEventElapsedTime( &timeValue , beginEvent , endEvent ) ;
+	printf( "Time: %.2fs\n" , timeValue ) ;
+
 }

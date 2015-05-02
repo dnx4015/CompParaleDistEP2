@@ -1,0 +1,41 @@
+../Code/exrc1/matrix_add_global
+N: 32, avg time: 0.403
+N: 64, avg time: 0.4875
+N: 128, avg time: 0.8535
+N: 256, avg time: 1.931
+N: 512, avg time: 7.1655
+
+../Code/exrc1/matrix_add_coalesced
+N: 32, avg time: 0.4025
+N: 64, avg time: 0.4865
+N: 128, avg time: 0.851
+N: 256, avg time: 1.9325
+N: 512, avg time: 7.1505
+
+../Code/exrc2/matrix_mult_shared
+N: 32, avg time: 0.4985
+N: 64, avg time: 1.026
+N: 128, avg time: 4.922
+N: 256, avg time: 33.9995
+N: 512, avg time: 260.8445
+
+../Code/exrc2/matrix_mult_global_coalesced
+N: 32, avg time: 0.781
+N: 64, avg time: 3.404
+N: 128, avg time: 24.192
+N: 256, avg time: 182.91
+N: 512, avg time: 1449.142
+
+../Code/exrc2/matrix_mult_shared_coalesced
+N: 32, avg time: 0.426
+N: 64, avg time: 0.642
+N: 128, avg time: 2.095
+N: 256, avg time: 11.937
+N: 512, avg time: 87.6315
+
+../Code/exrc2/matrix_mult_global
+N: 32, avg time: 1.0775
+N: 64, avg time: 5.5665
+N: 128, avg time: 41.305
+N: 256, avg time: 325.8015
+N: 512, avg time: 2605.725
