@@ -35,7 +35,7 @@ def main( argv ) :
 		for fin in get_files( directory , files ) :
 			print fin
 			f.write( fin + "\n" )
-			for size in get_threads( fin , sizes ) :
+			for size in get_size( fin , sizes ) :
 				print "Processing file:" , fin
 				print "With N:" , size
 				f.write( "N: " + str( size ) + ", avg time: " + str( get_mean( fin , size ) ) + "\n" )
