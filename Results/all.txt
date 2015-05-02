@@ -1,41 +1,48 @@
 ../Code/exrc1/matrix_add_global
-N: 32, avg time: 0.403
-N: 64, avg time: 0.4875
-N: 128, avg time: 0.8535
-N: 256, avg time: 1.931
-N: 512, avg time: 7.1655
+N: 32, avg time: 0.404
+N: 64, avg time: 0.4895
+N: 128, avg time: 0.852
+N: 256, avg time: 1.9325
+N: 512, avg time: 7.164
 
 ../Code/exrc1/matrix_add_coalesced
-N: 32, avg time: 0.4025
-N: 64, avg time: 0.4865
+N: 32, avg time: 0.4015
+N: 64, avg time: 0.4855
 N: 128, avg time: 0.851
-N: 256, avg time: 1.9325
-N: 512, avg time: 7.1505
+N: 256, avg time: 1.9285
+N: 512, avg time: 7.149
+
+../Code/exrc3/dot_gpu
+N: 32, avg time: 0.4005
+N: 64, avg time: 0.393
+N: 128, avg time: 0.399
+N: 256, avg time: 0.4005
+N: 512, avg time: 0.652
 
 ../Code/exrc2/matrix_mult_shared
-N: 32, avg time: 0.4985
-N: 64, avg time: 1.026
-N: 128, avg time: 4.922
-N: 256, avg time: 33.9995
-N: 512, avg time: 260.8445
+N: 32, avg time: 0.499
+N: 64, avg time: 1.0265
+N: 128, avg time: 4.9305
+N: 256, avg time: 33.951
+N: 512, avg time: 260.8425
 
 ../Code/exrc2/matrix_mult_global_coalesced
-N: 32, avg time: 0.781
-N: 64, avg time: 3.404
-N: 128, avg time: 24.192
-N: 256, avg time: 182.91
-N: 512, avg time: 1449.142
+N: 32, avg time: 0.7835
+N: 64, avg time: 3.402
+N: 128, avg time: 24.1875
+N: 256, avg time: 182.9425
+N: 512, avg time: 1449.1
 
 ../Code/exrc2/matrix_mult_shared_coalesced
-N: 32, avg time: 0.426
-N: 64, avg time: 0.642
-N: 128, avg time: 2.095
-N: 256, avg time: 11.937
-N: 512, avg time: 87.6315
+N: 32, avg time: 0.425
+N: 64, avg time: 0.6465
+N: 128, avg time: 2.0975
+N: 256, avg time: 11.945
+N: 512, avg time: 87.58
 
 ../Code/exrc2/matrix_mult_global
-N: 32, avg time: 1.0775
-N: 64, avg time: 5.5665
-N: 128, avg time: 41.305
-N: 256, avg time: 325.8015
-N: 512, avg time: 2605.725
+N: 32, avg time: 1.0795
+N: 64, avg time: 5.5675
+N: 128, avg time: 41.312
+N: 256, avg time: 325.8065
+N: 512, avg time: 2605.648

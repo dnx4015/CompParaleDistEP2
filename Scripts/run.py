@@ -8,7 +8,7 @@ def run( target , size , first ) :
 	#if first :
 		#sub.check_output( "make -f Makefile " + target , stderr = sub.STDOUT , shell = True )
 		#sub.check_output( "export OMP_NUM_THREADS=" + threads , stderr = sub.STDOUT , shell = True )
-	output = sub.check_output( "./" + target + ".out " + size , stderr = sub.STDOUT , shell = True )
+	output = sub.check_output( "./" + target + ".out " + size + " 0" , stderr = sub.STDOUT , shell = True )
 	return output
 
 #GET OUTPUT OF EXECUTION
@@ -26,7 +26,6 @@ def get_mean( target , size ) :
 	sum = 0.0
 	for i in range( RUN_TIMES ) :
 		sum += get_time( run( target , size , i == 0 ) )
-	print sum
 	return sum / float( RUN_TIMES )
 
 

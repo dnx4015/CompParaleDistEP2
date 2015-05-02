@@ -52,7 +52,7 @@ __global__ void mult( int* matrix_result,
 }
 
 int main(int argc, char* argv[]) {
-	if (argc != 2) {
+	if (argc < 2) {
       fprintf(stderr, "Syntax: %s <vector size N (<=512)>\n", argv[0]);
       return EXIT_FAILURE;
     }
