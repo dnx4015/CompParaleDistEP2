@@ -53,6 +53,14 @@ int main(int argc, char* argv[]) {
       return EXIT_FAILURE;
     }
 
+	cudaEvent_t beginEvent ;
+	cudaEvent_t endEvent ;
+
+	cudaEventCreate( &beginEvent ) ;
+	cudaEventCreate( &endEvent ) ;
+
+	cudaEventRecord( beginEvent , 0 ) ;
+
 	//const int N = 32;
 	const int mSize = N*N*sizeof(int);
 	int gridSize = N / BlockSizeX;
@@ -105,5 +113,11 @@ int main(int argc, char* argv[]) {
     checkCuda( cudaFree( dev_a ) );
     checkCuda( cudaFree( dev_b ) );
     checkCuda( cudaFree( dev_result ) );
+
+	cudaEventRecord( endEvent , 0 ) ;
+	cudaEventSynchronize( endEvent ) ;
+	float timeValue ;
+	cudaEventElapsedTime( &timeValue , beginEvent , endEvent ) ;
+	printf( "Time: %.2fs\n" , timeValue ) ;
 	printf("Done\n");
 }
