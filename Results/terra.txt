@@ -1,0 +1,48 @@
+../Code/exrc1/matrix_add_global
+N: 32, avg time: 0.384
+N: 64, avg time: 0.5415
+N: 128, avg time: 1.1385
+N: 256, avg time: 2.049
+N: 512, avg time: 8.1065
+
+../Code/exrc1/matrix_add_coalesced
+N: 32, avg time: 0.395
+N: 64, avg time: 0.544
+N: 128, avg time: 0.747
+N: 256, avg time: 2.4085
+N: 512, avg time: 8.2855
+
+../Code/exrc3/dot_gpu
+N: 32, avg time: 0.3465
+N: 64, avg time: 0.322
+N: 128, avg time: 0.3225
+N: 256, avg time: 0.401
+N: 512, avg time: 0.5585
+
+../Code/exrc2/matrix_mult_shared
+N: 32, avg time: 0.3835
+N: 64, avg time: 0.769
+N: 128, avg time: 3.694
+N: 256, avg time: 21.739
+N: 512, avg time: 167.2125
+
+../Code/exrc2/matrix_mult_global_coalesced
+N: 32, avg time: 0.488
+N: 64, avg time: 0.697
+N: 128, avg time: 2.7565
+N: 256, avg time: 15.2835
+N: 512, avg time: 109.631
+
+../Code/exrc2/matrix_mult_shared_coalesced
+N: 32, avg time: 0.472
+N: 64, avg time: 0.7185
+N: 128, avg time: 1.738
+N: 256, avg time: 8.915
+N: 512, avg time: 59.5015
+
+../Code/exrc2/matrix_mult_global
+N: 32, avg time: 0.5855
+N: 64, avg time: 1.769
+N: 128, avg time: 10.0875
+N: 256, avg time: 74.438
+N: 512, avg time: 587.0605
