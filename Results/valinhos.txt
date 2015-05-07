@@ -1,0 +1,84 @@
+../Code/exrc1/matrix_add_coalesced
+N: 32, avg time: 0.216
+N: 64, avg time: 0.245
+N: 128, avg time: 0.355
+N: 256, avg time: 0.774
+N: 512, avg time: 2.706
+../Code/exrc1/matrix_add_global
+N: 32, avg time: 0.216
+N: 64, avg time: 0.243
+N: 128, avg time: 0.357
+N: 256, avg time: 0.7795
+N: 512, avg time: 2.7145
+../Code/exrc2/matrix_mult_global
+N: 32, avg time: 0.2345
+N: 64, avg time: 0.302
+N: 128, avg time: 0.6075
+N: 256, avg time: 2.6275
+N: 512, avg time: 16.4515
+../Code/exrc2/matrix_mult_shared_coalesced
+N: 32, avg time: 0.2155
+N: 64, avg time: 0.248
+N: 128, avg time: 0.375
+N: 256, avg time: 0.897
+N: 512, avg time: 3.6075
+../Code/exrc2/matrix_mult_shared
+N: 32, avg time: 0.2225
+N: 64, avg time: 0.2535
+N: 128, avg time: 0.416
+N: 256, avg time: 1.1885
+N: 512, avg time: 5.8875
+../Code/exrc2/matrix_mult_global_coalesced
+N: 32, avg time: 0.222
+N: 64, avg time: 0.265
+N: 128, avg time: 0.41
+N: 256, avg time: 1.159
+N: 512, avg time: 5.369
+../Code/exrc3/dot_gpu
+N: 32, avg time: 0.2285
+N: 64, avg time: 0.2225
+N: 128, avg time: 0.223
+N: 256, avg time: 0.2215
+N: 512, avg time: 0.329
+../Code/exrc1/matrix_add_coalesced
+N: 32, avg time: 0.214
+N: 64, avg time: 0.242
+N: 128, avg time: 0.357
+N: 256, avg time: 0.777
+N: 512, avg time: 2.728
+../Code/exrc1/matrix_add_global
+N: 32, avg time: 0.213
+N: 64, avg time: 0.2415
+N: 128, avg time: 0.3635
+N: 256, avg time: 0.776
+N: 512, avg time: 2.704
+../Code/exrc2/matrix_mult_global
+N: 32, avg time: 0.234
+N: 64, avg time: 0.3005
+N: 128, avg time: 0.602
+N: 256, avg time: 2.6535
+N: 512, avg time: 16.495
+../Code/exrc2/matrix_mult_shared_coalesced
+N: 32, avg time: 0.2125
+N: 64, avg time: 0.2495
+N: 128, avg time: 0.3715
+N: 256, avg time: 0.9125
+N: 512, avg time: 3.6235
+../Code/exrc2/matrix_mult_shared
+N: 32, avg time: 0.22
+N: 64, avg time: 0.254
+N: 128, avg time: 0.414
+N: 256, avg time: 1.1965
+N: 512, avg time: 5.904
+../Code/exrc2/matrix_mult_global_coalesced
+N: 32, avg time: 0.225
+N: 64, avg time: 0.266
+N: 128, avg time: 0.4135
+N: 256, avg time: 1.152
+N: 512, avg time: 5.368
+../Code/exrc3/dot_gpu
+N: 32, avg time: 0.223
+N: 64, avg time: 0.2225
+N: 128, avg time: 0.2205
+N: 256, avg time: 0.221
+N: 512, avg time: 0.328
